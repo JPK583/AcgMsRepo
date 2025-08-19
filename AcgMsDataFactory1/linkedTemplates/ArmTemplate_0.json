@@ -178,7 +178,14 @@
 					{
 						"name": "Copy data1",
 						"type": "Copy",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "FeatureFlag",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -232,6 +239,36 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "FeatureFlag",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(pipeline().globalParameters.environment, 'dev')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Skip",
+						"description": "Pipeline is not included in current environment and will be skipped.",
+						"type": "Fail",
+						"dependsOn": [
+							{
+								"activity": "FeatureFlag",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"message": "Pipeline Skipped",
+							"errorCode": "200"
+						}
 					}
 				],
 				"policy": {
