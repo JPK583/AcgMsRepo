@@ -81,7 +81,14 @@
 				"name": "Skip",
 				"description": "Pipeline is not included in current environment and will be skipped.",
 				"type": "Fail",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "FeatureFlag",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"message": "Pipeline Skipped",
