@@ -4,7 +4,7 @@
 		"globalParameters": {
 			"environment": {
 				"type": "string",
-				"value": "dev"
+				"value": "uat"
 			}
 		}
 	},
